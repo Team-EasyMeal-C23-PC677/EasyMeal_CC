@@ -8,10 +8,10 @@ const router = express.Router();
 
 // Konfigurasi koneksi database
 const dbConfig = {
-  host: '34.128.86.236',
+  host: 'isi ip public',
   user: 'root',
-  password: 'password',
-  database: 'EasyMeal'
+  password: 'isi password DB',
+  database: 'isi nama database'
 };
 
 const connection = mysql.createConnection(dbConfig);
@@ -44,7 +44,7 @@ router.post('/register', async (req, res) => {
       }
 
       if (results.length > 0) {
-        return res.status(400).send('Email already exists!');
+        return res.status(400).json({ error : true , message :'Email already exists!'});
       }
 
       // Hashing Password
@@ -60,11 +60,11 @@ router.post('/register', async (req, res) => {
           throw err;
         }
 
-        res.status(200).json({ message: 'Registration successful' });
+        res.status(200).json({ error : false, message: 'Registration successful' });
       });
     });
   } catch (err) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error : true , message : 'Internal Server Error' });
   }
 });
 // Endpoint untuk login
@@ -81,7 +81,7 @@ router.post('/login', async (req, res) => {
       }
 
       if (results.length === 0) {
-        return res.status(400).send('Email does not exist!');
+        return res.status(400).json({ error : true , message :'Email does not exist!'});
       }
 
       const user = results[0];
@@ -89,7 +89,7 @@ router.post('/login', async (req, res) => {
       // Checking Password is Correct
       const truePassword = await bcrypt.compare(req.body.password, user.password);
       if (!truePassword) {
-        return res.status(400).send('Invalid Password');
+        return res.status(400).json({ error : true , message :'Invalid Password'});
       }
 
       res.status(200).json({
@@ -104,7 +104,7 @@ router.post('/login', async (req, res) => {
       });
     });
   } catch (err) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error : true , message : 'Internal Server Error' });
   }
 });
 
@@ -135,7 +135,7 @@ router.put('/user/:user_id', (req, res) => {
   connection.query(updateQuery, values, (err, results) => {
     if (err) {
       console.error('Error updating userrecipe data:', err);
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error : true , message : 'Internal Server Error' });
       return;
     }
 
@@ -154,7 +154,7 @@ router.get('/ingredients', (req, res) => {
     connection.query(query, (err, results) => {
       if (err) {
         console.error('Error getting ingredients:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
@@ -183,7 +183,7 @@ router.get('/pantry/:userId', (req, res) => {
     connection.query(query, [userId], (err, results) => {
       if (err) {
         console.error('Error getting pantry ingredients:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
@@ -209,7 +209,7 @@ router.get('/pantry/:userId', (req, res) => {
     connection.query(insertQuery, [userId, ingId], (err, results) => {
       if (err) {
         console.error('Error adding pantry ingredient:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
@@ -229,7 +229,7 @@ router.get('/pantry/:userId', (req, res) => {
     connection.query(deleteQuery, [userId, ingId], (err, results) => {
       if (err) {
         console.error('Error deleting pantry ingredient:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
@@ -250,7 +250,7 @@ router.get('/shopping-list/:userId', (req, res) => {
     connection.query(query, [userId], (err, results) => {
       if (err) {
         console.error('Error getting user shopping list:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
@@ -278,7 +278,7 @@ router.get('/shopping-list/:userId', (req, res) => {
     connection.query(insertQuery, [userId, ingId, qty, unit], (err, results) => {
       if (err) {
         console.error('Error adding shopping list item:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
@@ -298,7 +298,7 @@ router.get('/shopping-list/:userId', (req, res) => {
     connection.query(deleteQuery, [userId, ingId], (err, results) => {
       if (err) {
         console.error('Error deleting shopping list item:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
@@ -315,7 +315,7 @@ router.get('/recipe', (req, res) => {
     connection.query(query, (err, results) => {
       if (err) {
         console.error('Error getting all recipes:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
@@ -363,12 +363,12 @@ router.get('/recipe/:recipeId', (req, res) => {
     connection.query(recipeQuery, [recipeId], (err, recipeResults) => {
       if (err) {
         console.error('Error getting recipe detail:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
       if (recipeResults.length === 0) {
-        res.status(404).json({ error: 'Recipe not found' });
+        res.status(404).json({ error: false , message : 'Recipe not found' });
         return;
       }
   
@@ -387,7 +387,7 @@ router.get('/recipe/:recipeId', (req, res) => {
       connection.query(ingredientQuery, [recipeId], (err, ingredientResults) => {
         if (err) {
           console.error('Error getting recipe ingredients:', err);
-          res.status(500).json({ error: 'Internal server error' });
+          res.status(500).json({ error : true , message : 'Internal Server Error' });
           return;
         }
   
@@ -402,7 +402,7 @@ router.get('/recipe/:recipeId', (req, res) => {
         connection.query(stepQuery, [recipeId], (err, stepResults) => {
           if (err) {
             console.error('Error getting recipe steps:', err);
-            res.status(500).json({ error: 'Internal server error' });
+            res.status(500).json({ error : true , message : 'Internal Server Error' });
             return;
           }
   
@@ -412,7 +412,7 @@ router.get('/recipe/:recipeId', (req, res) => {
             description: row.step_description,
           }));
   
-          res.json({ recipe });
+          res.status(200).json({ error : false , message : 'Success', recipe });
         });
       });
     });
@@ -434,7 +434,7 @@ router.get('/favorite/:userId', (req, res) => {
     connection.query(favoriteQuery, [userId], (err, results) => {
       if (err) {
         console.error('Error getting favorite recipes:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
@@ -462,7 +462,7 @@ router.get('/favorite/:userId', (req, res) => {
     connection.query(insertQuery, [userId, recipeId], (err, results) => {
       if (err) {
         console.error('Error adding pantry ingredient:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
@@ -482,7 +482,7 @@ router.get('/favorite/:userId', (req, res) => {
     connection.query(deleteQuery, [userId, recipeId], (err, results) => {
       if (err) {
         console.error('Error deleting pantry ingredient:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
@@ -523,7 +523,7 @@ router.get('/favorite/:userId', (req, res) => {
     connection.query(sql, (err, results) => {
       if (err) {
         console.error('Error getting recipe recommendations:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error'});
         return;
       }
       const listRecipe = results.map((row) => ({
@@ -556,7 +556,7 @@ router.get('/search', (req, res) => {
     connection.query(searchQuery, [`%${query}%`], (err, results) => {
       if (err) {
         console.error('Error searching for recipes:', err);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error : true , message : 'Internal Server Error' });
         return;
       }
   
