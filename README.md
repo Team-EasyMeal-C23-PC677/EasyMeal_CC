@@ -4,8 +4,17 @@
 Hello guys!! this is backend from application Easy Meal
 
 # EasyMeal-Cloud Computing
-Hello, this is backend NanamYuk application made by Capstone Team C22-PS316
+Hello, this is backend EasyMeal application made by Capstone Team C23-PC677
 if you want to know our team member please check this [link](https://github.com/Team-EasyMeal-C23-PC677#-team-member)
+
+# Table of Contents
+- [Introduction](https://github.com/Team-EasyMeal-C23-PC677/EasyMeal_CC#cloud-computing-team)
+- [CC Team](https://github.com/Team-EasyMeal-C23-PC677/EasyMeal_CC#cloud-computing-team)
+- [What We Do?](https://github.com/Team-EasyMeal-C23-PC677/EasyMeal_CC#what-we-do)
+- [What We Use?](https://github.com/Team-EasyMeal-C23-PC677/EasyMeal_CC#what-services-that-we-use-in-gcp)
+- [Endpoints](https://github.com/Team-EasyMeal-C23-PC677/EasyMeal_CC#endpoint)
+- [Tutorial](https://github.com/Team-EasyMeal-C23-PC677/EasyMeal_CC#how-to-)
+- [Cloud Architecture](https://github.com/Team-EasyMeal-C23-PC677/EasyMeal_CC#cloud-architecture)
 
 # Cloud Computing Team
 
